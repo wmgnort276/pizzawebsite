@@ -1,0 +1,22 @@
+{% if lastest_question_list %}
+<ul>
+{% for question in lastest_question_list %}
+    <li><a href="{% url 'home:detail' question.id %}">{{ question.question_text }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+    <p>No home are available</p>
+{% endif %}
+{% comment %} {% if messages %} {% endcomment %}
+{% comment %} {% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show custom-alert"
+role="alert">
+<strong>{{ message }}</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+{% endfor %}
+{% endif %} {% endcomment %}
+
+
