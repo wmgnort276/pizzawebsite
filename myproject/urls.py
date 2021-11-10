@@ -22,10 +22,17 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('register/',profiles_view.register),
+    path('register/',profiles_view.register,name='register'),
     path('login/', auth_views.LoginView.as_view(template_name="profiles/login.html"),
     name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name="profiles/logout.html"),
-    name="logout")
+    name="logout"),
+    path('forgotpassword/',auth_views.PasswordResetView.as_view(template_name="profiles/forgot.html"),name="forgot"),
+    path('forgot/done/',auth_views.PasswordResetDoneView.as_view(template_name="profiles/forgot_done.html"),name="forgot-done"),
+    path('forgot/confirm/',auth_views.PasswordResetConfirmView.as_view(template_name="profiles/forgot_confirm.html"),
+    name="forgot-confirm"),
+    path('forgot/complete/',auth_views.PasswordResetCompleteView.as_view(template_name="profiles/forgot_complete.html"),
+    name="forgot-complete"),
+
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
