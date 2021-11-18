@@ -59,7 +59,7 @@ class ToppingAmount(models.Model):
     topping = models.ForeignKey('Topping', related_name='topping_amounts', on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.IntegerField(choices=AMOUNT_CHOICES, default=REGULAR)
     def __str__(self):
-        return self.pizza  
+        return self.pizza.name
 class SideDishes(models.Model):
     name=models.CharField(max_length=100)
     cost = models.IntegerField()
