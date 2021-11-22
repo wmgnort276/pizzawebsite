@@ -4,7 +4,7 @@ from django.db import models
 class Topping(models.Model):
     cost = models.IntegerField()
     name=models.CharField(max_length=100)
-    countPizza=models.IntegerField(default=1)
+    description = models.CharField(max_length = 200, blank = True)
     def __str__(self):
         return self.name
 class Pizza(models.Model):
@@ -19,8 +19,13 @@ class Pizza(models.Model):
     size = models.CharField(max_length=1,choices=choice,default='S')
     cost = models.IntegerField()
     image=models.ImageField(default='defaultpizza.webp',upload_to='pizza')
+    description = models.CharField(max_length = 200, blank = True)
+    def addtopping(self, topping_set):
+        # topping = Topping.objects.get(pk=topping_id)
+        for tp in topping_set:
+            self.toppings.add(tp)
     def addtopping(self, topping_id):
-        topping = Topping.objects.get(pk=topping_id)
+        topping = Topping.objects.get(topping_id)
         self.toppings.add(topping)
     def removetopping(self, topping_id):
         topping = Topping.objects.get(pk=topping_id)
@@ -61,9 +66,10 @@ class ToppingAmount(models.Model):
     def __str__(self):
         return self.pizza.name
 class SideDishes(models.Model):
-    name=models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     cost = models.IntegerField()
-    image=models.ImageField(default='defaultdishes.jpg', upload_to='sidedishes')
+    image = models.ImageField(default='defaultdishes.jpg', upload_to='sidedishes')
+    description = models.CharField(max_length = 200, blank = True)
     def __str__(self):
         return self.name
 class Combo(models.Model):
@@ -72,6 +78,7 @@ class Combo(models.Model):
     time = models.DateTimeField("Expires on")
     image = models.ImageField()
     numberperson = models.IntegerField()
+    description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,through='ComboAmount')
     dishes = models.ManyToManyField(SideDishes,through='ComboAmount')
     def __str__(self):

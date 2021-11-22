@@ -27,6 +27,10 @@ class PizzaAdmin(admin.ModelAdmin):
         (None,{
             "fields":['image']
         }),
+        (None,{
+            "fields":['description']
+        }
+        ),
     )
     inlines = [AmountToppingInLine]
     exclude=('toppings',)
@@ -53,6 +57,10 @@ class ComboAdmin(admin.ModelAdmin):
         (None,{
             'fields':['numberperson']
         }),
+        (None,{
+            "fields":['description']
+        }
+        ),
     )
     inlines=[ComboAmountInLine]
     exclude=['pizzas','dishes',]
