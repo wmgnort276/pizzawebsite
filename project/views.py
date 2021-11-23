@@ -13,20 +13,70 @@ from project.serializers import *
 from project.models import *
 from project.tests import * 
 # Create your views here.
-# class ComboList(generics.ListAPIView):
-#     queryset = Combo.objects.all()
-#     serializer_class = ComboSerializer
-#     name = 'combo-list'
-# class ComboDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Combo.objects.all()
-#     serializer_class = ComboSerializer
-#     name = 'combo-detail'
-# class APIRoot(generics.GenericAPIView):
-#     name = 'api-root'
-#     def get(self, request, *args, **kwargs):
-#         return Response({
-#             'combos': reverse(ComboList.name, request = request)
-#         })
+#Code API mới
+
+class ToppingList(generics.ListCreateAPIView):
+    queryset = Topping.objects.all()
+    serializer_class = ToppingSerializer
+    name = 'topping-list'
+class ToppingDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Topping.objects.all()
+    serializer_class = ToppingSerializer
+    name = 'topping-detail'
+class ToppingAmountList(generics.ListCreateAPIView):
+    queryset = ToppingAmount.objects.all()
+    serializer_class = ToppingAmountSerializer
+    name = 'toppingamount-list'
+class ToppingAmountDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ToppingAmount.objects.all()
+    serializer_class = ToppingAmountSerializer
+    name = 'toppingamount-detail'
+class ComboAmountList(generics.ListCreateAPIView):
+    queryset = ComboAmount.objects.all()
+    serializer_class = ComboAmountSerializer
+    name = 'comboamount-list'
+class ComboAmountDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ComboAmount.objects.all()
+    serializer_class = ComboAmountSerializer
+    name = 'comboamount-detail'
+class ComboList(generics.ListCreateAPIView):
+    queryset = Combo.objects.all()
+    serializer_class = ComboSerializer
+    name = 'combo-list'
+class ComboDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Combo.objects.all()
+    serializer_class = ComboSerializer
+    name = 'combo-detail'
+class PizzaList(generics.ListCreateAPIView):
+    queryset = Pizza.objects.all()
+    serializer_class = PizzaSerializer
+    name = 'pizza-list'
+class PizzaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pizza.objects.all()
+    serializer_class = PizzaSerializer
+    name = 'pizza-detail'
+class SideDishesList(generics.ListCreateAPIView):
+    queryset = SideDishes.objects.all()
+    serializer_class = SideDishesSerializer
+    name = 'side-list'
+class SideDishesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SideDishes.objects.all()
+    serializer_class = SideDishesSerializer
+    name = 'side-detail'
+class APIRoot(generics.GenericAPIView):
+    name = 'api-root'
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'pizzas': reverse(PizzaList.name, request=request),
+            'toppings': reverse(ToppingList.name, request=request),
+            'toppingamounts': reverse(ToppingAmountList.name, request=request),
+            'combos': reverse(ComboList.name, request = request),
+            'comboamounts': reverse(ComboAmountList.name, request = request),
+            'sidedishes': reverse(SideDishesList.name , request=request)
+        })
+# Code API cũ
+
+
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data) 

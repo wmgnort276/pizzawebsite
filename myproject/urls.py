@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+# from myproject.profiles import views
+# from myproject.project.views import ComboList
 from profiles import views as profiles_view
 from django.contrib.auth import views as auth_views
+from project import views as project_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
@@ -33,6 +36,33 @@ urlpatterns = [
     name="forgot-confirm"),
     path('forgot/complete/',auth_views.PasswordResetCompleteView.as_view(template_name="profiles/forgot_complete.html"),
     name="forgot-complete"),
+    #API cũ
+    path('topping/',project_view.topping_list),
+    path('topping/<int:pk>/',project_view.topping_deltail),
+    path('sidedishes/', project_view.side_list),
+    path('sidedishes/<int:pk>/',project_view.side_detail),
+    path('pizza/',project_view.pizza_list),
+    path('pizza/<int:pk>/',project_view.pizza_detail),
+    # path('toppings/',project_view.ToppingList.as_view(), name = project_view.ToppingList.name),
+    # path('toppings/<int:Pk>',project_view.ToppingDetail.as_view(), name = project_view.ToppingDetail.name),
+    # path('toppingamount/',project_view.ToppingAmountList.as_view()),
+    # path('toppingamount/<int:pk>/',project_view.ToppingAmountDetail.as_view()),
+    ## path('combo/',project_view.combo_list),
+    ## path('combo/<int:pk>/', project_view.combo_detail),
+    #Code API mới
 
+    path('combo/',project_view.ComboList.as_view(), name = project_view.ComboList.name),
+    path('combo/<int:pk>/', project_view.ComboDetail.as_view(), name = project_view.ComboDetail.name),
+    path('amount/',project_view.ComboAmountList.as_view(), name = project_view.ComboAmountList.name),
+    path('side/',project_view.SideDishesList.as_view(), name = project_view.SideDishesList.name),
+    path('side/<int:pk>/', project_view.SideDishesDetail.as_view(), name = project_view.SideDishesDetail.name),
+    path('amount/<int:pk>/', project_view.ComboAmountDetail.as_view(), name = project_view.ComboAmountDetail.name),
+    path('toppings/',project_view.ToppingList.as_view(), name = project_view.ToppingList.name),
+    path('toppings/<int:pk>/',project_view.ToppingDetail.as_view(), name = project_view.ToppingDetail.name),
+    path('toppingamount/',project_view.ToppingAmountList.as_view(), name=project_view.ToppingAmountList.name),
+    path('toppingamount/<int:pk>/',project_view.ToppingAmountDetail.as_view(), name = project_view.ToppingAmountDetail.name),
+    path('piza/',project_view.PizzaList.as_view(), name=project_view.PizzaList.name),
+    path('piza/<int:pk>/',project_view.PizzaDetail.as_view(), name=project_view.PizzaDetail.name),
+    # path('',project_view.APIRoot.as_view(), name = project_view.APIRoot.name)
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

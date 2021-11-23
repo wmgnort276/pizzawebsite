@@ -5,6 +5,8 @@ class Topping(models.Model):
     cost = models.IntegerField()
     name=models.CharField(max_length=100)
     description = models.CharField(max_length = 200, blank = True)
+    class Meta:
+        ordering = ('name',)
     def __str__(self):
         return self.name
 class Pizza(models.Model):
@@ -20,6 +22,8 @@ class Pizza(models.Model):
     cost = models.IntegerField()
     image=models.ImageField(default='defaultpizza.webp',upload_to='pizza')
     description = models.CharField(max_length = 200, blank = True)
+    class Meta:
+        ordering = ('name',)
     def addtopping(self, topping_set):
         # topping = Topping.objects.get(pk=topping_id)
         for tp in topping_set:
@@ -33,9 +37,9 @@ class Pizza(models.Model):
     def __str__(self):
         return self.name
 class ComboAmount(models.Model):
-    combo=models.ForeignKey('Combo',on_delete=models.SET_NULL, null=True)
+    combo=models.ForeignKey('Combo',on_delete=models.SET_NULL, null=True,related_name='combo')
     # combo=models.ForeignKey('Pizza',on_delete=models.SET_NULL, null=True)
-    pizza = models.ForeignKey('Pizza', on_delete=models.SET_NULL, null=True, blank=True)
+    pizza = models.ForeignKey('Pizza', on_delete=models.SET_NULL, null=True, blank=True,related_name='pizza')
     SMALL='S'
     MEAN='M'
     BIG='L'
@@ -47,8 +51,10 @@ class ComboAmount(models.Model):
     size=models.CharField(max_length=1,choices=SIZE_CHOICES,default='S')
     amountPizza=models.IntegerField(default=1)
     # combodishes=models.ForeignKey('Combo','Pizza',on_delete=models.SET_NULL, null=True)
-    dishes=models.ForeignKey('SideDishes', on_delete=models.SET_NULL, null=True, blank=True)
+    dishes=models.ForeignKey('SideDishes', on_delete=models.SET_NULL, null=True, blank=True,related_name='dishes')
     amount = models.IntegerField(default=1)
+    class Meta:
+        ordering = ('combo','pizza','dishes',)
     def __str__(self):
         return self.combo.name
 class ToppingAmount(models.Model):
@@ -61,7 +67,8 @@ class ToppingAmount(models.Model):
         (TRIPLE, 'Triple'),
     )
     pizza = models.ForeignKey('Pizza', related_name='topping_amounts', on_delete=models.SET_NULL, null=True)
-    topping = models.ForeignKey('Topping', related_name='topping_amounts', on_delete=models.SET_NULL, null=True, blank=True)
+    # topping = models.ForeignKey('Topping', related_name='topping_amounts', on_delete=models.SET_NULL, null=True, blank=True)
+    topping = models.ForeignKey('Topping', related_name='topping_amount', on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.IntegerField(choices=AMOUNT_CHOICES, default=REGULAR)
     def __str__(self):
         return self.pizza.name
@@ -81,6 +88,8 @@ class Combo(models.Model):
     description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,through='ComboAmount')
     dishes = models.ManyToManyField(SideDishes,through='ComboAmount')
+    class Meta:
+        ordering = ('name',)
     def __str__(self):
         return self.name
     def addpizza(self, pizza_id):
