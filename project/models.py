@@ -4,6 +4,7 @@ from django.db import models
 class Topping(models.Model):
     cost = models.IntegerField()
     name=models.CharField(max_length=100)
+    image = models.ImageField(default = 'topping.jpg', upload_to='topping')
     description = models.CharField(max_length = 200, blank = True)
     class Meta:
         ordering = ('name',)
@@ -83,7 +84,7 @@ class Combo(models.Model):
     name=models.CharField(max_length=100)
     cost = models.IntegerField()
     time = models.DateTimeField("Expires on")
-    image = models.ImageField()
+    image = models.ImageField(default = 'combo', upload_to = 'combo')
     numberperson = models.IntegerField()
     description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,through='ComboAmount')

@@ -72,6 +72,7 @@ class ToppingSerializer(serializers.HyperlinkedModelSerializer):
     topping_amount = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name = 'toppingamount-detail')
     cost = serializers.IntegerField()
     name = serializers.CharField(max_length = 100)
+    image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
     class Meta:
         model = Topping
@@ -79,6 +80,7 @@ class ToppingSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'cost',
             'name',
+            'image',
             'description',
             # 'topping_amounts',
             'pk',
@@ -175,6 +177,8 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     combo = ComboAmountSerializer(many = True, read_only = True)
     name = serializers.CharField(max_length = 100)
+    numberperson = serializers.IntegerField()
+    time = serializers.DateTimeField()
     cost = serializers.IntegerField()
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
@@ -182,7 +186,9 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
         model = Combo
         fields = ('url',
             'name',
+            'time',
             'pk',
+            'numberperson',
             'cost',
             'image',
             'description',
