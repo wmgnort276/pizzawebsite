@@ -114,6 +114,7 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'cost',
             'name',
+            'size',
             'pk',
             'image',
             'description',
@@ -127,6 +128,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
     cost = serializers.IntegerField()
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
+    type = serializers.CharField(max_length = 50)
     class Meta:
         model = SideDishes
         fields = (
@@ -136,6 +138,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
             'cost',
             'image',
             'description',
+            'type',
             'dishes'
         )
 # class PizzaSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,6 +1,8 @@
 # from re import S
 from django.db.models.query_utils import check_rel_lookup_compatibility
 from django.shortcuts import render
+from rest_framework import filters
+# from django_filters import AllValuesFilter
 from django.http import HttpResponse
 from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
@@ -55,14 +57,33 @@ class PizzaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
     name = 'pizza-detail'
+# class SideDishesFilter(filters.Fie):
+#     sidedishes_type = AllValuesFilter(name = 'sidedishes_type')
+#     class Meta:
+#         model = SideDishes
+#         fields =(
+#             'sideshes_type',
+#         )
 class SideDishesList(generics.ListCreateAPIView):
     queryset = SideDishes.objects.all()
     serializer_class = SideDishesSerializer
-    name = 'side-list'
+    name = 'sidedishes-list'
+    filter_fields = ['type','name']
 class SideDishesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = SideDishes.objects.all()
     serializer_class = SideDishesSerializer
-    name = 'side-detail'
+    name = 'sidedishes-detail'
+    # filter_backends = [filters.OrderingFilter]
+    # ordering_fields = ['type']
+#     filter_fields = (
+#     'type',
+#     )
+#     search_fields = (
+#     'type',
+#     )
+#     ordering_fields = (
+#     'type',
+#     )
 class APIRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
@@ -74,6 +95,13 @@ class APIRoot(generics.GenericAPIView):
             'comboamounts': reverse(ComboAmountList.name, request = request),
             'sidedishes': reverse(SideDishesList.name , request=request)
         })
+# class SideDishesFilter(filters.FilterSet):
+#     sidedishes_type = AllValuesFilter(name = 'sidedishes_type')
+#     class Meta:
+#         model = SideDishes
+#         fields =(
+#             'sideshes_type',
+#         )
 # Code API cũ
 
 

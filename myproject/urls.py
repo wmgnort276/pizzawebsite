@@ -63,6 +63,7 @@ urlpatterns = [
     path('toppingamount/<int:pk>/',project_view.ToppingAmountDetail.as_view(), name = project_view.ToppingAmountDetail.name),
     path('piza/',project_view.PizzaList.as_view(), name=project_view.PizzaList.name),
     path('piza/<int:pk>/',project_view.PizzaDetail.as_view(), name=project_view.PizzaDetail.name),
+    # path('side/<str:type>/',project_view.SideDishesDetail.as_view(), name=project_view.SideDishesDetail.name)
     # path('',project_view.APIRoot.as_view(), name = project_view.APIRoot.name)
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

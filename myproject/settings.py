@@ -29,7 +29,21 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+REST_FRAMEWORK = {
+# 'DEFAULT_PAGINATION_CLASS':
+# 'project.custompagination.LimitOffsetPaginationWithUpperBound',
+# 'PAGE_SIZE': 6,
+'DEFAULT_FILTER_BACKENDS': (
+'django_filters.rest_framework.DjangoFilterBackend',
+'rest_framework.filters.OrderingFilter',
+'rest_framework.filters.SearchFilter',
+),
+}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS':
+#     'projects.custompagination.LimitOffsetPaginationWithUpperBound',
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+# }
 INSTALLED_APPS = [
     # 'home.apps.HomeConfig',
     'django.contrib.admin',
@@ -38,10 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'home',
     'profiles',
     'crispy_forms',
     'project',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +90,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
+# CSRF_COOKIE_NAME = "csrftoken"
+# CSRF_COOKIE_SECURE = True
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 import os
@@ -82,14 +99,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'postgres',
-        'PASSWORD': 'an0911053091',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'myproject',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'an0911053091',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '5432',
         # # import os
         # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
         # MEDIA_URL = '/media/'
