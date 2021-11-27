@@ -128,7 +128,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
     cost = serializers.IntegerField()
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
-    type = serializers.CharField(max_length = 50)
+    type = serializers.ChoiceField(choices= SideDishes.TYPE_CHOICES)
     class Meta:
         model = SideDishes
         fields = (

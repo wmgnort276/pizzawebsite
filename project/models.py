@@ -78,7 +78,20 @@ class SideDishes(models.Model):
     cost = models.IntegerField()
     image = models.ImageField(default='defaultdishes.jpg', upload_to='sidedishes')
     description = models.CharField(max_length = 200, blank = True)
-    type = models.CharField(blank=False, max_length=50)
+    # type = models.CharField(blank=False, max_length=50)
+    MY = 'Noodle'
+    DRINK = 'Drink'
+    GA = 'GaBBQ'
+    KHOAI = 'Frenchfries'
+    SIDE = 'SideDishes'
+    TYPE_CHOICES = (
+        (MY,'Noodle'),
+        (DRINK,"Drink"),
+        (GA,'GaBBQ'),
+        (KHOAI,'Franchfries'),
+        (SIDE, 'Sidedishes'),
+    )
+    type = models.CharField(choices=TYPE_CHOICES,default=SIDE, max_length=50)
     def __str__(self):
         return self.name
 class Combo(models.Model):
