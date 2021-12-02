@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from profiles import views as profiles_view
 from django.contrib.auth import views as auth_views
 from project import views as project_view
+from home import views as home_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
@@ -65,5 +66,13 @@ urlpatterns = [
     path('piza/<int:pk>/',project_view.PizzaDetail.as_view(), name=project_view.PizzaDetail.name),
     # path('side/<str:type>/',project_view.SideDishesDetail.as_view(), name=project_view.SideDishesDetail.name)
     # path('',project_view.APIRoot.as_view(), name = project_view.APIRoot.name)
+    
+    #API Profile
+    path('profile/<int:pk>/',profiles_view.ProfileDeltail.as_view(), name=profiles_view.ProfileDeltail.name),
+    path('choice/<int:pk>/',home_view.ChoiceDetails.as_view(), name = home_view.ChoiceDetails.name ),
+    # path('question/<int:pk>/',home_view.QuestionDetail.as_view(),name=home_view.QuestionDetail.name),
+    path('test/<int:pk>/',home_view.TestDetail.as_view(), name = home_view.TestDetail.name),
+    path('combocategory/',project_view.ComboCategoryList.as_view(), name = project_view.ComboCategoryList.name),
+    path('combocategory/<int:pk>/',project_view.ComboCategoryDetail.as_view(), name = project_view.ComboCategoryDetail.name)
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

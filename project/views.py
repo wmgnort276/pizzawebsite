@@ -53,6 +53,7 @@ class PizzaList(generics.ListCreateAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
     name = 'pizza-list'
+    filter_fields = ['size']
 class PizzaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
@@ -84,6 +85,14 @@ class SideDishesDetail(generics.RetrieveUpdateDestroyAPIView):
 #     ordering_fields = (
 #     'type',
 #     )
+class ComboCategoryList(generics.ListCreateAPIView):
+    queryset = ComboCategory.objects.all()
+    serializer_class = ComboCategorySerializer
+    name = 'combocategory-list'
+class ComboCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ComboCategory.objects.all()
+    serializer_class = ComboCategorySerializer
+    name = 'combocategory-detail'
 class APIRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
@@ -93,7 +102,8 @@ class APIRoot(generics.GenericAPIView):
             'toppingamounts': reverse(ToppingAmountList.name, request=request),
             'combos': reverse(ComboList.name, request = request),
             'comboamounts': reverse(ComboAmountList.name, request = request),
-            'sidedishes': reverse(SideDishesList.name , request=request)
+            'sidedishes': reverse(SideDishesList.name , request=request),
+            'combocategorys': reverse(ComboCategoryList.name,request=request),
         })
 # class SideDishesFilter(filters.FilterSet):
 #     sidedishes_type = AllValuesFilter(name = 'sidedishes_type')

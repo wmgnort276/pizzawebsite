@@ -129,6 +129,8 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
     type = serializers.ChoiceField(choices= SideDishes.TYPE_CHOICES)
+    test = serializers.IntegerField()
+    test = cost
     class Meta:
         model = SideDishes
         fields = (
@@ -139,6 +141,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
             'image',
             'description',
             'type',
+            'test',
             'dishes'
         )
 # class PizzaSerializer(serializers.HyperlinkedModelSerializer):
@@ -178,6 +181,9 @@ class ComboAmountSerializer(serializers.ModelSerializer):
 class ComboSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
+    combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
+    pizzas = PizzaSerializer(many=True)
+    sides = SideDishesSerializer(many = True)
     combo = ComboAmountSerializer(many = True, read_only = True)
     name = serializers.CharField(max_length = 100)
     numberperson = serializers.IntegerField()
@@ -185,6 +191,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     cost = serializers.IntegerField()
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
+    # typeside = serializers.SerializerMethodField('get_typeside')
     class Meta:
         model = Combo
         fields = ('url',
@@ -195,4 +202,22 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             'cost',
             'image',
             'description',
-            'combo')
+            'combo',
+            'pizzas',
+            'sides',
+            'combocategory',
+            # 'typeside'
+            )
+    # def get_typeside(self,combo):
+        # return combo.sides.objects.annot
+class ComboCategorySerializer(serializers.HyperlinkedModelSerializer):
+    category = ComboSerializer(many = True,read_only = True)
+    class Meta:
+        model = ComboCategory
+        fields=(
+            'url',
+            'name',
+            'image',
+            'description',
+            'category'
+        )

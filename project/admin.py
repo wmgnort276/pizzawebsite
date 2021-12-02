@@ -39,6 +39,12 @@ class ComboAdmin(admin.ModelAdmin):
     list_filter=['numberperson','cost']
     search_fields=['name']
     fieldsets = (
+        (None,{
+            'fields':(
+                ['combocategory']
+            ),
+        }
+        ),
         (None, {
             "fields": (
                 ['name']
@@ -61,9 +67,19 @@ class ComboAdmin(admin.ModelAdmin):
             "fields":['description']
         }
         ),
+        (None, {
+            "fields": (
+                ['pizzas']
+            ),
+        }),
+        (None, {
+            "fields": (
+                ['sides']
+            ),
+        }),
     )
     inlines=[ComboAmountInLine]
-    exclude=['pizzas','dishes',]
+    # exclude=['pizzas','dishes',]
 class ToppingAdmin(admin.ModelAdmin):
     list_display=('name','cost')
     list_filter=['cost']
@@ -85,3 +101,4 @@ admin.site.register(Pizza,PizzaAdmin)
 admin.site.register(Combo,ComboAdmin)
 admin.site.register(ToppingAmount, ToppingAmountAdmin)
 admin.site.register(ComboAmount,ComboAmountAdmin)
+admin.site.register(ComboCategory)
