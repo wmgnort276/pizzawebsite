@@ -49,6 +49,7 @@ class ComboDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Combo.objects.all()
     serializer_class = ComboSerializer
     name = 'combo-detail'
+    filter_fields = ['sides']
 class PizzaList(generics.ListCreateAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
@@ -85,6 +86,30 @@ class SideDishesDetail(generics.RetrieveUpdateDestroyAPIView):
 #     ordering_fields = (
 #     'type',
 #     )
+class ScorePizzaList(generics.ListCreateAPIView):
+    queryset = ScorePizza.objects.all()
+    serializer_class = ScorePizzaSerialize
+    name = 'scorepizza-list'
+class ScorePizzaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ScorePizza.objects.all()
+    serializer_class = ScorePizzaSerialize
+    name = 'scorepizza-detail'
+class ScoreSideList(generics.ListCreateAPIView):
+    queryset = ScoreSide.objects.all()
+    serializer_class = ScoreSideSerializer
+    name = 'scoreside-list'
+class ScoreSideDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ScoreSide.objects.all()
+    serializer_class = ScoreSideSerializer
+    name = 'scoreside-detail'
+class ScoreComboList(generics.ListCreateAPIView):
+    queryset = ScoreCombo.objects.all()
+    serializer_class = ScoreComboSerializer
+    name = 'scorecombo-list'
+class ScoreComboDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ScoreCombo.objects.all()
+    serializer_class = ScoreComboSerializer
+    name = 'scorecombo-detail'
 class ComboCategoryList(generics.ListCreateAPIView):
     queryset = ComboCategory.objects.all()
     serializer_class = ComboCategorySerializer

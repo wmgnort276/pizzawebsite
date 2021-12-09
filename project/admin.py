@@ -31,6 +31,9 @@ class PizzaAdmin(admin.ModelAdmin):
             "fields":['description']
         }
         ),
+        (None,{
+            'fields':['menu']
+        }),
     )
     inlines = [AmountToppingInLine]
     exclude=('toppings',)
@@ -67,6 +70,9 @@ class ComboAdmin(admin.ModelAdmin):
             "fields":['description']
         }
         ),
+         (None,{
+            'fields':['menu']
+        }),
         (None, {
             "fields": (
                 ['pizzas']

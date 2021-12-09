@@ -24,6 +24,21 @@ class Pizza(models.Model):
     cost = models.IntegerField()
     image=models.ImageField(default='defaultpizza.webp',upload_to='pizza')
     description = models.CharField(max_length = 200, blank = True)
+    SAN = "Sang"
+    TRU = "Trua"
+    CHI = 'Chieu'
+    TOI = 'Toi'
+    CHA = 'Chay'
+    TRE = 'Treem'
+    choi = (
+        (SAN,'Sang'),
+        (TRU,'Trua'),
+        (CHI,'Chieu'),
+        (TOI,'Toi'),
+        (CHA,'Chay'),
+        (TRE,'Treem')
+        )
+    menu = models.CharField(default=SAN, choices=choi, max_length=8)
     class Meta:
         ordering = ('name',)
     def addtopping(self, topping_set):
@@ -38,6 +53,17 @@ class Pizza(models.Model):
         self.toppings.remove(topping)
     def __str__(self):
         return self.name
+    @property
+    def score(self):
+        a = ScorePizza.objects.filter(pizza__id = self.id)
+        score = float(0.0)
+        count =0
+        for scorepizza in a:
+            count+=1
+            score += scorepizza.score
+        if(count == 0):
+            return 5
+        return score/count
 class ComboAmount(models.Model):
     combo=models.ForeignKey('Combo',on_delete=models.SET_NULL, null=True,related_name='combo')
     # combo=models.ForeignKey('Pizza',on_delete=models.SET_NULL, null=True)
@@ -55,6 +81,7 @@ class ComboAmount(models.Model):
     # combodishes=models.ForeignKey('Combo','Pizza',on_delete=models.SET_NULL, null=True)
     dishes=models.ForeignKey('SideDishes', on_delete=models.SET_NULL, null=True, blank=True,related_name='dishes')
     amount = models.IntegerField(default=1)
+    # menu = models.CharField(default='Sang', choices = Pizza.choi, max_length=8)
     class Meta:
         ordering = ('combo','pizza','dishes',)
     def __str__(self):
@@ -79,6 +106,7 @@ class SideDishes(models.Model):
     cost = models.IntegerField()
     image = models.ImageField(default='defaultdishes.jpg', upload_to='sidedishes')
     description = models.CharField(max_length = 200, blank = True)
+    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=8)
     MY = 'Noodle'
     DRINK = 'Drink'
     GA = 'GaBBQ'
@@ -94,6 +122,17 @@ class SideDishes(models.Model):
     type = models.CharField(choices=TYPE_CHOICES,default=SIDE, max_length=50)
     def __str__(self):
         return self.name
+    @property
+    def score(self):
+        a = ScoreSide.objects.filter(side__id = self.id)
+        score = float(0.0)
+        count =0
+        for scoreside in a:
+            count+=1
+            score += scoreside.score
+        if(count == 0):
+            return 5
+        return score/count
 class ComboCategory(models.Model):
     name = models.CharField(max_length=1000)
     image = models.ImageField(default = 'combo', upload_to = 'combo')
@@ -110,6 +149,7 @@ class Combo(models.Model):
     description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
     sides = models.ManyToManyField(SideDishes,related_name='sides')
+    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=8)
     class Meta:
         ordering = ('name',)
     def __str__(self):
@@ -126,48 +166,40 @@ class Combo(models.Model):
     def remvedishes(self, dishes_id):
         dishes = SideDishes.objects.get(pk=dishes_id)
         self.dishes.remove(dishes)
+    def current_side(self):
+        return SideDishes.objects.filter(type='Noodle')
+    @property
+    def current_sides(self):
+        return SideDishes.objects.filter(type='Drink')
+    def score(self):
+        a = ScoreCombo.objects.filter(combo__id = self.id)
+        score = float(0.0)
+        count = 0
+        for scorecombo in a:
+            count+=1
+            score += scorecombo.score
+        if(count == 0):
+            return 5
+        return score/count
+class ScorePizza(models.Model):
+    pizza = models.ForeignKey(Pizza,related_name='pizzascore',on_delete=models.CASCADE)
+    STAR1 = 1
+    STAR2 = 2
+    STAR3 = 3
+    STAR4 = 4
+    STAR5 = 5
+    SCORE_CHOICE = (
+        (STAR1,1),
+        (STAR2,2),
+        (STAR3,3),
+        (STAR4,4),
+        (STAR5,5),
+    )
+    score = models.IntegerField(choices=SCORE_CHOICE,default=STAR5)
+class ScoreSide(models.Model):
+    side = models.ForeignKey(SideDishes,related_name='sidescore',on_delete=models.CASCADE)
+    score = models.IntegerField(choices=ScorePizza.SCORE_CHOICE,default=5)
+class ScoreCombo(models.Model):
+    combo = models.ForeignKey(Combo,related_name='comboscore',on_delete=models.CASCADE)
+    score = models.IntegerField(choices=ScorePizza.SCORE_CHOICE, default=5)
 
-# class ScorePizza(models.Model):
-#     pizza = models.ForeignKey(Pizza,related_name='pizzas',on_delete=models.CASCADE)
-#     STAR1 = '1'
-#     STAR2 = '2'
-#     STAR3 = '3'
-#     STAR4 = '4'
-#     STAR5 = '5'
-#     SCORE_CHOICE = (
-#         (STAR1,'1'),
-#         (STAR2,'2'),
-#         (STAR3,'3'),
-#         (STAR4,'4'),
-#         (STAR5,'5'),
-#     )
-#     score = models.IntegerField(choices=SCORE_CHOICE,default=STAR5)
-# class ScoreSide(models.Model):
-#     side = models.ForeignKey(SideDishes,related_name='sides',on_delete=models.CASCADE)
-#     STAR1 = '1'
-#     STAR2 = '2'
-#     STAR3 = '3'
-#     STAR4 = '4'
-#     STAR5 = '5'
-#     SCORE_CHOICE = (
-#         (STAR1,'1'),
-#         (STAR2,'2'),
-#         (STAR3,'3'),
-#         (STAR4,'4'),
-#         (STAR5,'5'),
-#     )
-#     score = models.IntegerField(choices=SCORE_CHOICE,default=STAR5)
-# class ScoreCombo(models.Model):
-#     combo = models.ForeignKey(Combo,related_name='combos',on_delete=models.CASCADE)
-#     STAR1 = '1'
-#     STAR2 = '2'
-#     STAR3 = '3'
-#     STAR4 = '4'
-#     STAR5 = '5'
-#     SCORE_CHOICE = (
-#         (STAR1,'1'),
-#         (STAR2,'2'),
-#         (STAR3,'3'),
-#         (STAR4,'4'),
-#         (STAR5,'5'),
-#     )
