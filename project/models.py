@@ -24,21 +24,20 @@ class Pizza(models.Model):
     cost = models.IntegerField()
     image=models.ImageField(default='defaultpizza.webp',upload_to='pizza')
     description = models.CharField(max_length = 200, blank = True)
-    SAN = "Sang"
-    TRU = "Trua"
-    CHI = 'Chieu'
-    TOI = 'Toi'
-    CHA = 'Chay'
-    TRE = 'Treem'
+    SAN = "Appetizer"
+    TRU = "Main"
+    CHI = 'Dessert'
+    CHA = 'Vegetarian'
+    TRE = 'Children'
     choi = (
-        (SAN,'Sang'),
-        (TRU,'Trua'),
-        (CHI,'Chieu'),
-        (TOI,'Toi'),
-        (CHA,'Chay'),
-        (TRE,'Treem')
+        (SAN,'Appetizer'),
+        (TRU,'Main'),
+        (CHI,'Dessert'),
+        # (TOI,'Toi'),
+        (CHA,'Vegetarian'),
+        (TRE,'Children')
         )
-    menu = models.CharField(default=SAN, choices=choi, max_length=8)
+    menu = models.CharField(default=SAN, choices=choi, max_length=10)
     class Meta:
         ordering = ('name',)
     def addtopping(self, topping_set):
@@ -106,7 +105,7 @@ class SideDishes(models.Model):
     cost = models.IntegerField()
     image = models.ImageField(default='defaultdishes.jpg', upload_to='sidedishes')
     description = models.CharField(max_length = 200, blank = True)
-    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=8)
+    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
     MY = 'Noodle'
     DRINK = 'Drink'
     GA = 'GaBBQ'
@@ -149,7 +148,7 @@ class Combo(models.Model):
     description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
     sides = models.ManyToManyField(SideDishes,related_name='sides')
-    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=8)
+    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
     class Meta:
         ordering = ('name',)
     def __str__(self):
