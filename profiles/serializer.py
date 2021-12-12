@@ -83,7 +83,8 @@ class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     #     return price
 class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     order = serializers.StringRelatedField()
-    pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
+   # pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
+    pizaa = serializers.HyperlinkedRelatedField(read_only = True, view_name='pizza-detail')
     cost  = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = OrderPizza
@@ -100,7 +101,8 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
         return orderpiza.pizaa.cost*orderpiza.amount
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
     order = serializers.StringRelatedField()
-    sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
+    #sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
+    sidess = serializers.HyperlinkedRelatedField(read_only = True, view_name='sidedishes-detail')
     cost = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = OrderSideDishes
@@ -116,7 +118,8 @@ class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
         return orderside.sidess.cost*orderside.amount
 class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
     order = serializers.StringRelatedField()
-    combobox = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
+   # combobox = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
+    combobox = serializers.HyperlinkedRelatedField(read_only = True, view_name='combo-detail')
     cost = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = OrderCombo

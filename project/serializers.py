@@ -166,12 +166,13 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
 #         )
 class ComboAmountSerializer(serializers.ModelSerializer):
     combo = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
-    # pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
-    pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
+    pizza = PizzaSerializer(read_only = True)
+    #pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     # pk = serializers.IntegerField(read_only=True)
     size = serializers.ChoiceField(choices=ComboAmount.SIZE_CHOICES)
     amountPizza = serializers.IntegerField()
-    dishes = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
+    #dishes = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
+    dishes = SideDishesSerializer(read_only = True)
     # dishes = SideDishesSerializers()
     amount = serializers.IntegerField()
     class Meta:
@@ -210,6 +211,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             'numberperson',
             'cost',
             'image',
+            'percent',
             'description',
             'menu',
             'combo',

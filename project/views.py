@@ -45,6 +45,7 @@ class ComboList(generics.ListCreateAPIView):
     queryset = Combo.objects.all()
     serializer_class = ComboSerializer
     name = 'combo-list'
+    filter_fields = ['menu']
 class ComboDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Combo.objects.all()
     serializer_class = ComboSerializer
@@ -54,7 +55,7 @@ class PizzaList(generics.ListCreateAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
     name = 'pizza-list'
-    filter_fields = ['size']
+    filter_fields = ['size','menu']
 class PizzaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
@@ -70,7 +71,7 @@ class SideDishesList(generics.ListCreateAPIView):
     queryset = SideDishes.objects.all()
     serializer_class = SideDishesSerializer
     name = 'sidedishes-list'
-    filter_fields = ['type','name']
+    filter_fields = ['type','name','menu']
 class SideDishesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = SideDishes.objects.all()
     serializer_class = SideDishesSerializer

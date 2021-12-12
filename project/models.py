@@ -145,6 +145,7 @@ class Combo(models.Model):
     time = models.DateTimeField("Expires on")
     image = models.ImageField(default = 'combo', upload_to = 'combo')
     numberperson = models.IntegerField()
+    percent = models.IntegerField(default=10)
     description = models.CharField(max_length = 200, blank = True)
     pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
     sides = models.ManyToManyField(SideDishes,related_name='sides')
