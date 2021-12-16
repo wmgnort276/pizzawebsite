@@ -63,7 +63,7 @@ class Order(models.Model):
     delive = models.BooleanField(default=False)
     create = models.DateTimeField(default = datetime.now())
     def __str__(self):
-        return 'VuQuang'
+        return self.name +str(self.id)
     def price(self):
         cost = 0
         a = OrderSideDishes.objects.filter(order__id = self.id)
@@ -95,17 +95,26 @@ class OrderPizza(models.Model):
     amount = models.IntegerField(default=1)
     def cost(self):
         return self.pizaa.cost*self.amount
+    @property
+    def pizza(self):
+        return Pizza.objects.get(id = self.pizaa.id)
 class OrderSideDishes(models.Model):
     order = models.ForeignKey(Order, related_name = 'orderside', on_delete = models.CASCADE)
     sidess = models.ForeignKey(SideDishes,related_name= 'sidess', on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
     def cost(self):
         return self.sidess.cost*self.amount
+    @property
+    def sidedishes(self):
+        return SideDishes.objects.get(id = self.sidess.id)
 class OrderCombo(models.Model):
     order = models.ForeignKey(Order, related_name = 'ordercombo', on_delete = models.CASCADE)
     combobox = models.ForeignKey(Combo,related_name= 'combobox',on_delete = models.CASCADE)
     amount = models.IntegerField(default=1)
     def cost(self):
-        return self.combobox.cost*self.amount
+        return self.combobox.pricecombo()*self.amount
+    @property
+    def comboboss(self):
+        return Combo.objects.get(id = self.combobox.id)
     
     

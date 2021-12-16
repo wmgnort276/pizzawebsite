@@ -12,6 +12,7 @@ from rest_framework.reverse import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from project.serializers import *
+# from profiles.serializer import *
 from project.models import *
 from project.tests import * 
 # Create your views here.
@@ -111,14 +112,14 @@ class ScoreComboDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ScoreCombo.objects.all()
     serializer_class = ScoreComboSerializer
     name = 'scorecombo-detail'
-class ComboCategoryList(generics.ListCreateAPIView):
-    queryset = ComboCategory.objects.all()
-    serializer_class = ComboCategorySerializer
-    name = 'combocategory-list'
-class ComboCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ComboCategory.objects.all()
-    serializer_class = ComboCategorySerializer
-    name = 'combocategory-detail'
+# class ComboCategoryList(generics.ListCreateAPIView):
+#     queryset = ComboCategory.objects.all()
+#     serializer_class = ComboCategorySerializer
+#     name = 'combocategory-list'
+# class ComboCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ComboCategory.objects.all()
+#     serializer_class = ComboCategorySerializer
+#     name = 'combocategory-detail'
 class APIRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):

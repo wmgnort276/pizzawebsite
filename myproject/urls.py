@@ -69,11 +69,11 @@ urlpatterns = [
     
     #API Profile
     path('profile/<int:pk>/',profiles_view.ProfileDeltail.as_view(), name=profiles_view.ProfileDeltail.name),
-    path('choice/<int:pk>/',home_view.ChoiceDetails.as_view(), name = home_view.ChoiceDetails.name ),
+    # path('choice/<int:pk>/',home_view.ChoiceDetails.as_view(), name = home_view.ChoiceDetails.name ),
     # path('question/<int:pk>/',home_view.QuestionDetail.as_view(),name=home_view.QuestionDetail.name),
-    path('test/<int:pk>/',home_view.TestDetail.as_view(), name = home_view.TestDetail.name),
-    path('combocategory/',project_view.ComboCategoryList.as_view(), name = project_view.ComboCategoryList.name),
-    path('combocategory/<int:pk>/',project_view.ComboCategoryDetail.as_view(), name = project_view.ComboCategoryDetail.name),
+    # path('test/<int:pk>/',home_view.TestDetail.as_view(), name = home_view.TestDetail.name),
+    # path('combocategory/',project_view.ComboCategoryList.as_view(), name = project_view.ComboCategoryList.name),
+    # path('combocategory/<int:pk>/',project_view.ComboCategoryDetail.as_view(), name = project_view.ComboCategoryDetail.name),
     path('order/',profiles_view.OrderList.as_view(), name = profiles_view.OrderList.name),
     path('order/<int:pk>/', profiles_view.OrderDetail.as_view(), name = profiles_view.OrderDetail.name),
     path('cart/<int:pk>/',profiles_view.CartDetail.as_view(), name = profiles_view.CartDetail.name),

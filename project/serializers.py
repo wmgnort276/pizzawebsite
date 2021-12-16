@@ -109,7 +109,7 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
-    score_fields = serializers.FloatField(source = 'score')
+    score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
         model = Pizza
         fields = (
@@ -166,13 +166,13 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
 #         )
 class ComboAmountSerializer(serializers.ModelSerializer):
     combo = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
-    pizza = PizzaSerializer(read_only = True)
-    #pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
+    pizas = PizzaSerializer(source = 'piza', read_only = True)
+    pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     # pk = serializers.IntegerField(read_only=True)
     size = serializers.ChoiceField(choices=ComboAmount.SIZE_CHOICES)
     amountPizza = serializers.IntegerField()
-    #dishes = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
-    dishes = SideDishesSerializer(read_only = True)
+    dishes = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
+    dishe = SideDishesSerializer(read_only = True, source = 'side')
     # dishes = SideDishesSerializers()
     amount = serializers.IntegerField()
     class Meta:
@@ -180,15 +180,17 @@ class ComboAmountSerializer(serializers.ModelSerializer):
         fields = ('url',
             'combo',
             'pizza',
+            'pizas',
             'pk',
             'size',
             'amountPizza',
             'dishes',
+            'dishe',
             'amount',)
 class ComboSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
-    combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
+    # combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
     pizzas = PizzaSerializer(many=True)
     # sides = SideDishesSerializer(many = True)
     sides = SideDishesSerializer(many = True)
@@ -201,6 +203,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices=Pizza.choi, read_only = True)
     current_sides_fields = SideDishesSerializer(many = True, source = 'current_sides',read_only = True)
+    price_field = serializers.IntegerField(source = 'price', read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
         model = Combo
@@ -217,7 +220,8 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             'combo',
             'pizzas',
             'sides',
-            'combocategory',
+            # 'combocategory',
+            'price_field',
             'current_sides_fields',
             'score_fields',
             # 'side'
@@ -230,17 +234,17 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     # def get_typeside(self,combo):
     #     # data = combo.sides
     #     return SideDishesSerializer(many = True, source = 'current_sides').data
-class ComboCategorySerializer(serializers.HyperlinkedModelSerializer):
-    category = ComboSerializer(many = True,read_only = True)
-    class Meta:
-        model = ComboCategory
-        fields=(
-            'url',
-            'name',
-            'image',
-            'description',
-            'category'
-        )
+# class ComboCategorySerializer(serializers.HyperlinkedModelSerializer):
+#     category = ComboSerializer(many = True,read_only = True)
+#     class Meta:
+#         model = ComboCategory
+#         fields=(
+#             'url',
+#             'name',
+#             'image',
+#             'description',
+#             'category'
+#         )
 class ScorePizzaSerialize(serializers.HyperlinkedModelSerializer):
     pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     score = serializers.ChoiceField(choices=ScorePizza.SCORE_CHOICE)
