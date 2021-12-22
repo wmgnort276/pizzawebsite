@@ -30,7 +30,7 @@ class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
 class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # topping_amounts = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='toppingamount-detail')
-    pizza = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
+    # pizza = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     # topping_amounts = ToppingAmountSerializer(many = True)
     name = serializers.CharField(max_length = 100, read_only = True)
     cost = serializers.IntegerField(read_only = True)
@@ -50,12 +50,12 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'menu',
             'topping_amounts',
-            'pizza',
+            # 'pizza',
             'score_fields'
         )
 class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
-    dishes = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
+    # dishes = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     name = serializers.CharField(max_length = 100)
     cost = serializers.IntegerField()
     image = serializers.ImageField()
@@ -75,7 +75,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
             'type',
             'menu',
             # 'test',
-            'dishes',
+            # 'dishes',
             'score_fields',
         )
 # class ComboAmountSerializer(serializers.ModelSerializer):
