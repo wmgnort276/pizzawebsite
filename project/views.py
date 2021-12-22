@@ -34,14 +34,30 @@ class ToppingAmountDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ToppingAmount.objects.all()
     serializer_class = ToppingAmountSerializer
     name = 'toppingamount-detail'
-class ComboAmountList(generics.ListCreateAPIView):
-    queryset = ComboAmount.objects.all()
-    serializer_class = ComboAmountSerializer
-    name = 'comboamount-list'
-class ComboAmountDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ComboAmount.objects.all()
-    serializer_class = ComboAmountSerializer
-    name = 'comboamount-detail'
+# class ComboAmountList(generics.ListCreateAPIView):
+#     queryset = ComboAmount.objects.all()
+#     serializer_class = ComboAmountSerializer
+#     name = 'comboamount-list'
+# class ComboAmountDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ComboAmount.objects.all()
+#     serializer_class = ComboAmountSerializer
+#     name = 'comboamount-detail'
+class PizzaInComboList(generics.ListCreateAPIView):
+    queryset = PizzaInCombo.objects.all()
+    serializer_class = PizzaInComboSerializer
+    name = 'pizzaincombo-list'
+class PizzaInComboDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PizzaInCombo.objects.all()
+    serializer_class = PizzaInComboSerializer
+    name = 'pizzaincombo-detail'
+class SideDishesInComboList(generics.ListCreateAPIView):
+    queryset = SideDishesInCombo.objects.all()
+    serializer_class = SideDishesInComboSerializer
+    name = 'sidedishesincombo-list'
+class SideDishesInComboDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SideDishesInCombo.objects.all()
+    serializer_class = SideDishesInComboSerializer
+    name = 'sidedishesincombo-detail'
 class ComboList(generics.ListCreateAPIView):
     queryset = Combo.objects.all()
     serializer_class = ComboSerializer

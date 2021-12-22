@@ -5,8 +5,14 @@ from .models import *
 class AmountToppingInLine(admin.StackedInline):
     model=ToppingAmount
     extra=0
-class ComboAmountInLine(admin.StackedInline):
-    model=ComboAmount
+# class ComboAmountInLine(admin.StackedInline):
+#     model=ComboAmount
+#     extra = 1
+class PizzaInComboAdmin(admin.StackedInline):
+    model = PizzaInCombo
+    extra = 1
+class SideDishesInComboAdmin(admin.StackedInline):
+    model = SideDishesInCombo
     extra = 1
 class PizzaAdmin(admin.ModelAdmin):
     list_display=('name','cost')
@@ -42,12 +48,12 @@ class ComboAdmin(admin.ModelAdmin):
     list_filter=['numberperson','cost']
     search_fields=['name']
     fieldsets = (
-        (None,{
-            'fields':(
-                ['combocategory']
-            ),
-        }
-        ),
+        # (None,{
+        #     'fields':(
+        #         ['combocategory']
+        #     ),
+        # }
+        # ),
         (None, {
             "fields": (
                 ['name']
@@ -78,13 +84,13 @@ class ComboAdmin(admin.ModelAdmin):
                 ['pizzas']
             ),
         }),
-        (None, {
-            "fields": (
-                ['sides']
-            ),
-        }),
+        # (None, {
+        #     "fields": (
+        #         ['sides']
+        #     ),
+        # }),
     )
-    inlines=[ComboAmountInLine]
+    inlines=[PizzaInComboAdmin,SideDishesInComboAdmin]
     # exclude=['pizzas','dishes',]
 class ToppingAdmin(admin.ModelAdmin):
     list_display=('name','cost')
@@ -94,9 +100,9 @@ class SideDishesAdmin(admin.ModelAdmin):
     list_display=('name','cost')
     list_filter=['cost']
     search_fields=['name']
-class ComboAmountAdmin(admin.ModelAdmin):
-    list_filter=['combo']
-    list_display=('combo','pizza','size','amountPizza','dishes','amount')
+# class ComboAmountAdmin(admin.ModelAdmin):
+#     list_filter=['combo']
+#     list_display=('combo','pizza','size','amountPizza','dishes','amount')
 class ToppingAmountAdmin(admin.ModelAdmin):
     list_filter=['pizza']
     list_display=('pizza','topping','amount')
@@ -106,5 +112,5 @@ admin.site.register(SideDishes,SideDishesAdmin)
 admin.site.register(Pizza,PizzaAdmin)
 admin.site.register(Combo,ComboAdmin)
 admin.site.register(ToppingAmount, ToppingAmountAdmin)
-admin.site.register(ComboAmount,ComboAmountAdmin)
+# admin.site.register(ComboAmount,ComboAmountAdmin)
 # admin.site.register(ComboCategory)

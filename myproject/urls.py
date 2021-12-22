@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+# from myproject import project
 # from myproject.profiles import views
 # from myproject.project.views import ComboList
 from profiles import views as profiles_view
@@ -54,10 +55,10 @@ urlpatterns = [
 
     path('combo/',project_view.ComboList.as_view(), name = project_view.ComboList.name),
     path('combo/<int:pk>/', project_view.ComboDetail.as_view(), name = project_view.ComboDetail.name),
-    path('amount/',project_view.ComboAmountList.as_view(), name = project_view.ComboAmountList.name),
+    # path('amount/',project_view.ComboAmountList.as_view(), name = project_view.ComboAmountList.name),
     path('side/',project_view.SideDishesList.as_view(), name = project_view.SideDishesList.name),
     path('side/<int:pk>/', project_view.SideDishesDetail.as_view(), name = project_view.SideDishesDetail.name),
-    path('amount/<int:pk>/', project_view.ComboAmountDetail.as_view(), name = project_view.ComboAmountDetail.name),
+    # path('amount/<int:pk>/', project_view.ComboAmountDetail.as_view(), name = project_view.ComboAmountDetail.name),
     path('toppings/',project_view.ToppingList.as_view(), name = project_view.ToppingList.name),
     path('toppings/<int:pk>/',project_view.ToppingDetail.as_view(), name = project_view.ToppingDetail.name),
     path('toppingamount/',project_view.ToppingAmountList.as_view(), name=project_view.ToppingAmountList.name),
@@ -90,5 +91,9 @@ urlpatterns = [
     path('scoreside/<int:pk>/', project_view.ScoreSideDetail.as_view(), name = project_view.ScoreSideDetail.name),
     path('scorecombo/', project_view.ScoreComboList.as_view(),name =  project_view.ScoreComboList.name),
     path('scorecombo/<int:pk>/', project_view.ScoreComboDetail.as_view, name = project_view.ScoreComboDetail.name),
+    path('pizaincombo/', project_view.PizzaInComboList.as_view(), name = project_view.PizzaInComboList.name),
+    path('pizaincombo/<int:pk>/', project_view.PizzaInComboDetail.as_view(), name= project_view.PizzaInComboDetail.name),
+    path('sideincombo/',project_view.SideDishesInComboList.as_view(), name = project_view.SideDishesInComboList.name),
+    path('sideincombo/<int:pk>/', project_view.SideDishesInComboDetail.as_view(), name = project_view.SideDishesInComboDetail.name),
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
