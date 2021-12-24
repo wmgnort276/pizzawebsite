@@ -6,6 +6,7 @@ from rest_framework.relations import SlugRelatedField
 from .models import *
 from project.models import *
 from django.contrib.auth.models import User
+from drf_writable_nested import WritableNestedModelSerializer 
 # from project.serializers import *
 # from project.serializers import ComboSerializer
 class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
@@ -118,7 +119,7 @@ class SideDishesInComboSerializer(serializers.HyperlinkedModelSerializer):
     sidecombo = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     sidedishes = SideDishesSerializer(read_only = True, source = 'side')
     type = serializers.ChoiceField(choices=SideDishes.TYPE_CHOICES, read_only = True)
-    sides = SideDishesSerializer(read_only = True, source = 'sidedishes', many=True)
+    # sides = SideDishesSerializer(read_only = True, source = 'sidedishes', many=True)
     class Meta:
         model = SideDishesInCombo
         fields = (
@@ -128,16 +129,16 @@ class SideDishesInComboSerializer(serializers.HyperlinkedModelSerializer):
             'sidecombo',
             'sidedishes',
             'type',
-            'sides',
+            # 'sides',
             # 'amount',
         )
-class ComboSerializer(serializers.HyperlinkedModelSerializer):
+class ComboSerializer(serializers.HyperlinkedModelSerializer, WritableNestedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     # combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
     pizzaincombo = PizzaInComboSerializer(many = True)
     sideincombo = SideDishesInComboSerializer(many = True)
-    pizzas = PizzaSerializer(many=True, read_only = True)
+    # pizzas = PizzaSerializer(many=True, read_only = True)
     # sides = SideDishesSerializer(many = True)
     # sides = SideDishesSerializer(many = True)
     # combo = ComboAmountSerializer(many = True, read_only = True)
@@ -166,7 +167,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             # 'combo',
             'pizzaincombo',
             'sideincombo',
-            'pizzas',
+            # 'pizzas',
             # 'sides',
             # 'combocategory',
             'price_field',
@@ -199,7 +200,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     def get_cost(self,orderpiza):
         return orderpiza.pizaa.cost*orderpiza.amount
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
-    # order = serializers.StringRelatedField()
+    order = serializers.StringRelatedField()
 
     sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     # sidess = serializers.HyperlinkedRelatedField(read_only = True, view_name='sidedishes-detail')
@@ -237,7 +238,7 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
         )
     def get_cost(self, ordercombo):
         return ordercombo.combobox.cost*ordercombo.amount
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
+class OrderSerializer(serializers.HyperlinkedModelSerializer, WritableNestedModelSerializer):
     # cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='__str__')
     # cart = serializers.StringRelatedField()
     # piza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
@@ -249,7 +250,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     orderpizza = OrderPizzaSerializer(many = True)
     orderside = OrderSideSerializer(many = True)
     ordercombo = OrderComboSerializer( many = True)
-    cost_fields = serializers.IntegerField(source = 'cost')
+    cost_fields = serializers.IntegerField(source = 'cost', read_only=True)
     class Meta:
         model = Order
         fields = (

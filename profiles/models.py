@@ -9,6 +9,7 @@ from django.forms import ModelForm, fields
 from datetime import date, datetime
 from django.utils import timezone
 from project.models import *
+
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -55,7 +56,7 @@ class Cart(models.Model):
     #         price +=order.cost()
     #     return price
 class Order(models.Model):
-    cart = models.ForeignKey(Cart, related_name='cart', on_delete=models.SET_NULL,null=True)
+    cart = models.ForeignKey(Cart, related_name='cart', on_delete=models.SET_NULL,null=True, blank=True)
     name = models.CharField(max_length=100, blank=False)
     phonenumber = models.CharField(max_length=10,blank=False)
     email = models.EmailField(blank=True)
